@@ -2,17 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-# # URL of the page we want to scrape
-# url = "https://books.toscrape.com/"
-# response = requests.get(url)
-# soup = BeautifulSoup(response.text, "html.parser")
-
-# # Liens vers les livres
-# livres = soup.find_all('article')
-# for livre in livres:
-#     titre = livre.find('h3').find('a')['href']
-#     print(titre)
-
 # Phase 1 : une seule page de livre 
 
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"

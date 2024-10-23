@@ -1,3 +1,6 @@
 Bibliothèques : 
 
-BeautifulSoup4==4.9.3
+BeautifulSoup4
+os-sys
+requests
+

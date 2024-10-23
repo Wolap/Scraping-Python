@@ -5,7 +5,7 @@ import os
 import re
 import shutil
 
-# Clen file name
+# Clean file name
 def clean_filename(filename):
     return re.sub(r'[\\/*?:"<>|]', "_", filename)
 
@@ -20,7 +20,8 @@ def clear_folder(folder_path):
                 if os.path.isfile(file_path) or os.path.islink(file_path):
                     os.remove(file_path)
                 elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)  # Remove the entire folder and its contents
+                    # Remove the entire folder and its contents
+                    shutil.rmtree(file_path)  
             except Exception as e:
                 print(f"Failed to delete {file_path}. Reason: {e}")
 
@@ -43,13 +44,10 @@ categories_links = []
 categories_names = []
 categories = soup.find('div', class_='side_categories').find('ul').find_all('li')
 
-
 # Store categories href in a list
 for category in categories:
     categories_links.append(category.find('a')['href'].replace('..', ''))
     categories_names.append(category.find('a').text.strip().replace(' ', '_'))
-    # print("Name", categories_names)
-    # print("Category", categories_links)
 
 # Get all categories links and looks for them
 for i in range (len(categories_links)):
@@ -57,7 +55,6 @@ for i in range (len(categories_links)):
         i += 1
     
     url =  "https://books.toscrape.com/catalogue/category" + categories_links[i]
-    # print("URL", url)
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -85,22 +82,13 @@ for i in range (len(categories_links)):
         soup = BeautifulSoup(response.text, "html.parser")
 
         # UPC
-        try:
-            universal_product_code = soup.find('table').find_all('tr')[0].text.split('UPC')[1]
-        except:
-            universal_product_code = "n/a"
+        universal_product_code = soup.find('table').find_all('tr')[0].text.split('UPC')[1]
 
         # Titles
-        try:
-            title = soup.find('h1').text.encode('utf-8').decode('utf-8')
-        except:
-            title = "n/a"
+        title = soup.find('h1').text.encode('utf-8').decode('utf-8')
 
         # Nettoyage du titre pour en faire un nom de fichier valide
-        try:
-            clean_title = clean_filename(title)
-        except:
-            clean_title = "n_a"
+        clean_title = clean_filename(title)
 
         # Price with taxes
         try:
@@ -127,10 +115,7 @@ for i in range (len(categories_links)):
             product_description = "n/a"
 
         # Category
-        try:
-            category = soup.find_all('a')[3].text
-        except:
-            category = "n/a"
+        category = soup.find_all('a')[3].text
 
         # Review rating
         try:
@@ -144,7 +129,7 @@ for i in range (len(categories_links)):
         else:
             pass
             
-        # Image URL + Download image
+        # Image URL
         image_url = soup.find('img')['src'].replace('../..', 'https://books.toscrape.com')
 
         # Get image

@@ -3,4 +3,5 @@ Bibliothèques :
 BeautifulSoup4
 os-sys
 requests
+re
 
